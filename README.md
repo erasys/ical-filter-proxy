@@ -19,6 +19,11 @@ my_calendar_name:
       - field: start_time # start_time and end_time supported
         operator: not-equals # equals and not-equals supported
         val: "09:00" # A time in 24hour format, zero-padded
+      - field: summary # summary and description supported
+        operator: startswith # startswith and not-startswith supported
+        val: # array of values also supported
+          - Planning
+          - Daily Standup
 ```
 
 ## Additional Rules
@@ -40,3 +45,12 @@ Voila! Your calendar will now be available at http://localhost:8000/my_calendar_
 
 
 I'd recommend running it behind something like nginx, but you can do what you like.
+
+### Docker
+
+Create a `config.yml` as shown above.
+
+```bash
+docker build -t ical-filter-proxy .
+docker run -d --name ical-filter-proxy -v $(pwd)/config.yml:/app/config.yml -p 8000:8000 ical-filter-proxy
+```
